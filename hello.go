@@ -47,13 +47,14 @@ func main() {
 	// Migrate the schema
 	db.AutoMigrate(&User{})
 
-    router := gin.Default()
+    engine := gin.Default()
+	engine.SetTrustedProxies(nil)
 	// CORS for https://foo.com and https://github.com origins, allowing:
 	// - PUT and PATCH methods
 	// - Origin header
 	// - Credentials share
 	// - Preflight requests cached for 12 hours
-	router.Use(cors.New(cors.Config{
+	engine.Use(cors.New(cors.Config{
 	  AllowOrigins:     []string{"http://localhost:5173"},
 	  AllowMethods:     []string{"GET", "PUT", "POST", "DELETE"},
 	  AllowHeaders:     []string{"Origin"},
@@ -64,10 +65,10 @@ func main() {
 	//   },
 	  MaxAge: 12 * time.Hour,
 	}))
-    router.POST("/login", login)
-    router.POST("/register", register)
-    router.GET("/cards", getCards)
-    router.Run("localhost:8080")
+    engine.POST("/login", login)
+    engine.POST("/register", register)
+    engine.GET("/cards", getCards)
+    engine.Run("localhost:8080")
 }
 
 func getCards(c *gin.Context) {

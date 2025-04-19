@@ -38,6 +38,9 @@
 .history
 .ionide
 
+### IntelliJ ###
+.idea
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -63,5 +66,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Go Air
+air
+tmp/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,git
