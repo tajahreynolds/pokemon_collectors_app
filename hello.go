@@ -68,6 +68,10 @@ func main() {
     engine.POST("/login", login)
     engine.POST("/register", register)
     engine.GET("/cards", getCards)
+	// engine.NoRoute(func(c *gin.Context) {
+	// 	// todo this should point to index.html in public dir
+	// 	// c.File("./vue-frontend/index.html")
+	// })
     engine.Run("localhost:8080")
 }
 
