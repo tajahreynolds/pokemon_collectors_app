@@ -2,9 +2,9 @@
 </script>
 
 <template>
-  <main>
-    <RouterView />
-  </main>
+  <section>
+    <h1 class="red">Home Page</h1>
+  </section>
 </template>
 
 <style scoped>
