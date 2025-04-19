@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	tcg "github.com/PokemonTCG/pokemon-tcg-sdk-go-v2/pkg"
@@ -20,7 +22,11 @@ import (
 type User struct {
 	gorm.Model
 	Name 	  string
-  }
+}
+
+type JSONSuccess struct {
+	message	string
+}
 
 func main() {
 	err := godotenv.Load()
@@ -42,8 +48,25 @@ func main() {
 	db.AutoMigrate(&User{})
 
     router := gin.Default()
+	// CORS for https://foo.com and https://github.com origins, allowing:
+	// - PUT and PATCH methods
+	// - Origin header
+	// - Credentials share
+	// - Preflight requests cached for 12 hours
+	router.Use(cors.New(cors.Config{
+	  AllowOrigins:     []string{"http://localhost:5173"},
+	  AllowMethods:     []string{"GET", "PUT", "POST", "DELETE"},
+	  AllowHeaders:     []string{"Origin"},
+	  ExposeHeaders:    []string{"Content-Length"},
+	//   AllowCredentials: true,
+	//   AllowOriginFunc: func(origin string) bool {
+	// 	return origin == "https://github.com"
+	//   },
+	  MaxAge: 12 * time.Hour,
+	}))
+    router.POST("/login", login)
+    router.POST("/register", register)
     router.GET("/cards", getCards)
-
     router.Run("localhost:8080")
 }
 
@@ -67,4 +90,12 @@ func getCards(c *gin.Context) {
 		log.Printf("%s: %s\n", card.Name, card.Set.Name)
 	}
 	c.JSON(http.StatusOK, cards);
+}
+
+func login(c *gin.Context) {
+	c.JSON(http.StatusOK, "login success: true");
+}
+
+func register(c *gin.Context) {
+	c.JSON(http.StatusOK, "register success: true");
 }

@@ -4,17 +4,36 @@ defineProps({
     type: String,
     required: true,
   },
-})
+});
+
+const login = () => {
+  fetch('http://localhost:8080/login', {
+    method: 'POST',
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data);
+    });
+};
+
+const register = () => {
+  fetch('http://localhost:8080/register', {
+    method: 'POST',
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data);
+    });
+};
 </script>
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-    </h3>
+    <h1 class="red">{{ msg }}</h1>
+    <div id="login-buttons">
+      <button @click="login">Log In</button>
+      <button @click="register">Sign Up</button>
+    </div>
   </div>
 </template>
 
@@ -26,18 +45,18 @@ h1 {
   top: -10px;
 }
 
-h3 {
-  font-size: 1.2rem;
+#login-buttons {
+  justify-content: center;
+  display: flex;
+  gap: 8px;
 }
 
-.greetings h1,
-.greetings h3 {
+.greetings h1 {
   text-align: center;
 }
 
 @media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
+  .greetings h1 {
     text-align: left;
   }
 }

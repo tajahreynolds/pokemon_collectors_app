@@ -8,16 +8,24 @@
 }
 
 a,
-.green {
+.red {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: rgb(189, 6, 0);
   transition: 0.4s;
   padding: 3px;
 }
 
+button {
+  background-color: rgb(189, 58, 19);
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+}
+
 @media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+  a:hover,
+  button:hover {
+    background-color: hsla(0, 88%, 43%, 0.2);
   }
 }
 
