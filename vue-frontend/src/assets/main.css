@@ -4,29 +4,35 @@
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  font-size: 16px;
 }
 
-a,
-.red {
-  text-decoration: none;
-  color: rgb(189, 6, 0);
-  transition: 0.4s;
-  padding: 3px;
+h1 {
+  font-size: 2.25rem;
 }
 
-button {
-  background-color: rgb(189, 58, 19);
-  border: none;
-  border-radius: 8px;
-  padding: 8px;
-  height: fit-content;
+h2 {
+  font-size: 1.875rem;
 }
 
-@media (hover: hover) {
-  a:hover,
-  button:hover {
-    background-color: hsla(0, 88%, 43%, 0.2);
-  }
+h3 {
+  font-size: 1.25rem;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--color-text-dark);
+}
+
+.bg-dark {
+    background-color: var(--color-background-dark);
+}
+
+.text-dark {
+    color: var(--color-text-dark);
 }
 
 @media (min-width: 1024px) {

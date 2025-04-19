@@ -24,6 +24,7 @@
 /* semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-white);
+  --color-background-dark: var(--vt-c-dark);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
 
@@ -32,6 +33,7 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  --color-text-dark: var(--vt-c-text-dark-2);
 
   --section-gap: 160px;
 }
@@ -39,6 +41,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
+    --color-background-dark: var(--vt-c-white);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
 
@@ -47,6 +50,7 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    --color-text-dark: var(--vt-c-text-light-1);
   }
 }
 

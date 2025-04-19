@@ -36,52 +36,46 @@ function register() {
                     width="125"
                     height="125"
                 />
-                <h1 class="red">Pok&#233;mon Collectors</h1>
+                <h1 class="text-red-600">Pok&#233;mon Collectors</h1>
             </div>
         </header>
 
-        <section class="login-form">
+        <section class="login-form bg-gray-200">
             <h1>Let's get you signed in</h1>
-            <div class="login-buttons">
-                <button @click="login">Log In</button>
-                <button @click="register">Sign Up</button>
-                <button class="google-signin">Sign In With Google</button>
+            <div class="flex flex-col justify-center gap-y-2">
+                <button class="btn-red" @click="login">Log In</button>
+                <button class="btn-red" @click="register">Sign Up</button>
+                <button class="btn-white">Sign In With Google</button>
             </div>
         </section>
     </div>
 </template>
 
 <style scoped>
+header {
+    line-height: 1.5;
+}
+
 h1 {
     font-weight: 500;
     font-size: 2.6rem;
     position: relative;
     top: -10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.logo {
+    display: block;
+    margin: 0 auto 2rem;
 }
 
 .login-form {
     color: var(--color-background);
     border-radius: 16px;
-    background-color: darkgrey;
     padding: 12px;
     width: fit-content;
     margin: 0px auto;
-}
-
-.login-buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-}
-
-.google-signin {
-    background-color: white;
-}
-
-h1 {
-    text-align: center;
-    white-space: nowrap;
 }
 
 @media (min-width: 1024px) {
@@ -94,7 +88,7 @@ h1 {
         margin: 0 2rem 0 0;
     }
 
-    header .logo-wrapper {
+    .logo-wrapper {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
@@ -105,14 +99,5 @@ h1 {
         justify-content: center;
         display: flex;
     }
-}
-
-header {
-    line-height: 1.5;
-}
-
-.logo {
-    display: block;
-    margin: 0 auto 2rem;
 }
 </style>

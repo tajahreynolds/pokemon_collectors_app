@@ -1,0 +1,15 @@
+@use "tailwindcss";
+
+@mixin btn {
+    @apply border rounded-lg p-2;
+}
+
+.btn-white {
+    @include btn;
+    @apply bg-white hover:bg-gray-400;
+}
+
+.btn-red {
+    @include btn;
+    @apply bg-red-600 hover:bg-red-800;
+}
