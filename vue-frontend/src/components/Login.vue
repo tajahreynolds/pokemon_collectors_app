@@ -60,6 +60,7 @@ h1 {
 }
 
 .login-form {
+    color: var(--color-background);
     border-radius: 16px;
     background-color: darkgrey;
     padding: 12px;
@@ -68,9 +69,9 @@ h1 {
 }
 
 .login-buttons {
-    justify-content: center;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
 }
 
