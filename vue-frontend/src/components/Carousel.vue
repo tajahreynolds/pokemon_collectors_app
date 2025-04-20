@@ -9,8 +9,8 @@ const props = defineProps({
         <div
             v-for="card in preview"
             :key="card.id"
-            class="bg-dark h-80 rounded-xl bg-cover text-center"
-            :style="`min-width: 241px; min-height: 336px; background-image: url(${card.images.small})`"
+            class="min-h-[350px] min-w-[250px] rounded-xl bg-contain text-center"
+            :style="`background-image: url(${card.images.small})`"
         ></div>
     </div>
 </template>
