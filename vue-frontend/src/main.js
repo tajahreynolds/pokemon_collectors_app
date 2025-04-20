@@ -10,15 +10,21 @@ import Profile from './components/Profile.vue';
 import PageNotFound from './components/PageNotFound.vue';
 
 const routes = [
-    { path: '/', component: Home },
-    { path: '/login', component: Login },
-    { path: '/profile', component: Profile },
-    { path: '/:pathmatch(.*)', component: PageNotFound },
+    { path: '/', component: Home, name: Home },
+    { path: '/login', component: Login, name: Login },
+    { path: '/profile', component: Profile, name: Profile },
+    { path: '/:pathmatch(.*)', component: PageNotFound, name: PageNotFound },
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+});
+
+router.beforeEach(async (to, from) => {
+    if (to.name !== 'Login') {
+        // open login form
+    }
 });
 
 createApp(App).use(router).mount('#app');
