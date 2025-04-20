@@ -20,6 +20,7 @@ onMounted(() => {
         })
         .catch((e) => console.error(e.message));
 });
+const prevSearchString = ref('');
 const searchString = ref('');
 const searching = ref(false);
 const searchResults = ref([]);
@@ -40,11 +41,11 @@ function search() {
             }
         })
         .then((data) => {
-            console.log(data);
             searchResults.value = data;
         })
         .catch((e) => console.error(e.message))
         .finally(() => {
+            prevSearchString.value = searchString.value;
             searchString.value = '';
             searching.value = false;
         });
@@ -86,8 +87,16 @@ function search() {
                 {{ searching ? 'Searching...' : 'Search' }}
             </button>
         </section>
-        <section v-if="searchResults.length">
-            <Carousel :preview="searchResults" />
+        <section v-if="prevSearchString">
+            <h2 class="text-center">
+                {{
+                    `${searchResults.length ? searchResults.length : 'No'} search results for ${prevSearchString}`
+                }}
+            </h2>
+            <Carousel
+                v-if="searchResults.length"
+                :preview="searchResults"
+            />
         </section>
         <section v-if="trendingCards.length">
             <h2 class="text-center">Trending Cards</h2>

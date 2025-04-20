@@ -35,10 +35,3 @@ a:hover {
 .text-dark {
     color: var(--color-text-dark);
 }
-
-@media (min-width: 1024px) {
-    body {
-        display: flex;
-        place-items: center;
-    }
-}
