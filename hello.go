@@ -65,9 +65,17 @@ func main() {
 	//   },
 	  MaxAge: 12 * time.Hour,
 	}))
+
+	// AUTH METHODS
     engine.POST("/login", login)
     engine.POST("/register", register)
-    engine.GET("/cards", getCards)
+    // PROFILE METHODS
+
+	// CARDS METHODS
+	engine.GET("/cards", getCards)
+    engine.POST("/search", search)
+	// COLLECTIONS METHODS
+
 	// engine.NoRoute(func(c *gin.Context) {
 	// 	// todo this should point to index.html in public dir
 	// 	// c.File("./vue-frontend/index.html")
@@ -83,7 +91,7 @@ func getCards(c *gin.Context) {
 	// Refer to https://docs.pokemontcg.io/#api_v2cards_list for how queries work
 	cards, err := poke.GetCards(
 		request.Query("name:jirachi", "types:psychic"),
-		request.OrderBy("+name"),
+		request.OrderBy("+number"),
 		request.PageSize(3),
 		request.Page(2),
 	)
@@ -95,6 +103,27 @@ func getCards(c *gin.Context) {
 		log.Printf("%s: %s\n", card.Name, card.Set.Name)
 	}
 	c.JSON(http.StatusOK, cards);
+}
+
+func search(c *gin.Context) {
+	var requestBody struct {
+		Name string `json:"name"`
+	}
+    // If an empty string is used here, you can stil use the API with stricter limits.
+    // See: https://docs.pokemontcg.io/#documentationrate_limits
+    poke := tcg.NewClient(os.Getenv("PKMN_TCG_API_KEY"))
+	
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	cards, err := poke.GetCards(request.Query("name:" + requestBody.Name))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c.JSON(http.StatusOK, cards)
 }
 
 func login(c *gin.Context) {

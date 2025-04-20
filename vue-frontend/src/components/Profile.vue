@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-
+import Carousel from './Carousel.vue';
 </script>
 
 <template>
@@ -10,11 +10,11 @@ import { RouterLink } from 'vue-router';
     <header class="profile-header flex flex-col-reverse">
         <div class="flex justify-center gap-x-4">
             <!-- a few icons for interaction here will vary depending on state eg add/remove, msg, block -->
-            <div class="w-10 h-10 bg-gray-300 rounded-full hover:bg-gray-500"></div>
-            <div class="w-10 h-10 bg-gray-300 rounded-full hover:bg-gray-500"></div>
-            <div class="w-10 h-10 bg-gray-300 rounded-full hover:bg-gray-500"></div>
+            <div class="h-10 w-10 rounded-full bg-gray-300 hover:bg-gray-500"></div>
+            <div class="h-10 w-10 rounded-full bg-gray-300 hover:bg-gray-500"></div>
+            <div class="h-10 w-10 rounded-full bg-gray-300 hover:bg-gray-500"></div>
         </div>
-        <h1 class="text-red-600 self-center">(username) profile</h1>
+        <h1 class="self-center text-red-600">(username) profile</h1>
         <!-- maybe add icons for editing username and profile picture -->
         <img
             alt="Vue logo"
@@ -26,23 +26,12 @@ import { RouterLink } from 'vue-router';
     </header>
     <section>
         <h2 class="text-center">Showcase</h2>
-        <!-- image carousel with controls -->
-        <div class="flex overflow-x-auto gap-x-3">
-            <div v-for="n in 3" key="n" class="min-w-1/2 text-center h-80 bg-dark rounded-lg">
-                <h3 class="text-dark">Placeholder</h3>
-            </div>
-        </div>
+        <Carousel />
     </section>
     <section>
         <h2 class="text-center">Collections</h2>
-        <!-- image carousel with controls -->
-        <div class="flex overflow-x-auto gap-x-3">
-            <div v-for="n in 3" key="n" class="min-w-1/2 text-center h-80 bg-dark rounded-lg">
-                <h3 class="text-dark">Placeholder</h3>
-            </div>
-        </div>
+        <Carousel />
     </section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
