@@ -10,8 +10,8 @@ import Profile from './components/Profile.vue';
 import PageNotFound from './components/PageNotFound.vue';
 
 const routes = [
-    { path: '/', component: Login },
-    { path: '/home', component: Home },
+    { path: '/', component: Home },
+    { path: '/login', component: Login },
     { path: '/profile', component: Profile },
     { path: '/:pathmatch(.*)', component: PageNotFound },
 ];

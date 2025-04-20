@@ -5,7 +5,7 @@ import Carousel from './Carousel.vue';
 
 <template>
     <nav>
-        <RouterLink to="/home">Home</RouterLink>
+        <RouterLink to="/">Home</RouterLink>
     </nav>
     <header class="profile-header flex flex-col-reverse">
         <div class="flex justify-center gap-x-4">
