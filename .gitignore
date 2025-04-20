@@ -67,8 +67,13 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,git
+
 # Go Air
 air
+.air.toml
 tmp/
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,git
+# Personal notes
+*.md
+!README.md
