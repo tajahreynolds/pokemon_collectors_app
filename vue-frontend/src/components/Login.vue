@@ -10,7 +10,7 @@ function login() {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            router.push({ path: '/home' });
+            router.push({ name: 'Home' });
         });
 }
 
@@ -43,8 +43,18 @@ function register() {
         <section class="login-form bg-gray-200">
             <h1>Let's get you signed in</h1>
             <div class="flex flex-col justify-center gap-y-2">
-                <button class="btn-red" @click="login">Log In</button>
-                <button class="btn-red" @click="register">Sign Up</button>
+                <button
+                    class="btn-red"
+                    @click="login"
+                >
+                    Log In
+                </button>
+                <button
+                    class="btn-red"
+                    @click="register"
+                >
+                    Sign Up
+                </button>
                 <button class="btn-white">Sign In With Google</button>
             </div>
         </section>
