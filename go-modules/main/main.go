@@ -5,24 +5,15 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
-
 	"net/http"
-
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
 
 	tcg "github.com/PokemonTCG/pokemon-tcg-sdk-go-v2/pkg"
 	"github.com/PokemonTCG/pokemon-tcg-sdk-go-v2/pkg/request"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"github.com/tajahreynolds/pokemon_collectors_app/db"
 )
-
-type User struct {
-	gorm.Model
-	Name 	  string
-}
 
 type JSONSuccess struct {
 	message	string
@@ -30,22 +21,14 @@ type JSONSuccess struct {
 
 func main() {
 	err := godotenv.Load("../../.env")
-	if err != nil {
+	if (err != nil) {
 	  log.Fatal("Error loading .env file")
 	}
 
-	// https://github.com/go-gorm/postgres
-	db, err := gorm.Open(postgres.New(postgres.Config{
-		DSN: "user=postgres password=" + os.Getenv("POSTGRES_PASSWORD") + " dbname=pokemoncollectors port=5432 sslmode=disable TimeZone=America/New_York",
-		PreferSimpleProtocol: true, // disables implicit prepared statement usage
-	}), &gorm.Config{})
-
-	if err != nil {
-	  log.Fatal("Error connecting to database")
+	dsn := "user=postgres password=" + os.Getenv("POSTGRES_PASSWORD") + " dbname=pokemoncollectors port=5432 sslmode=disable TimeZone=America/New_York"
+	if err := db.ConnectPostgres(dsn); err != nil {
+		log.Fatal("Failed to connect to the databse:", err)
 	}
-
-	// Migrate the schema
-	db.AutoMigrate(&User{})
 
     engine := gin.Default()
 	engine.SetTrustedProxies(nil)
@@ -127,9 +110,45 @@ func search(c *gin.Context) {
 }
 
 func login(c *gin.Context) {
-	c.JSON(http.StatusOK, "login success: true");
+	var requestBody struct {
+		Email    string `json:"email"`
+	}
+
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if user := db.FindUser(requestBody.Email); user != nil {
+		// send the magic login link
+		c.JSON(http.StatusOK, JSONSuccess{});
+	} else {
+		// user was not found
+		c.JSON(http.StatusOK, JSONSuccess{});
+	}
 }
 
 func register(c *gin.Context) {
-	c.JSON(http.StatusOK, "register success: true");
+	var requestBody struct {
+		Username string `json:"username"`
+		Email    string `json:"email"`
+	}
+
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create a new user in the database
+	newUser := db.User{
+		Name:  requestBody.Username,
+		Email: requestBody.Email,
+	}
+
+	if err := db.CreateUser(newUser); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, db.FindUser(newUser.Email))
 }
