@@ -121,7 +121,7 @@ func login(c *gin.Context) {
 
 	if user := db.FindUser(requestBody.Email); user != nil {
 		// send the magic login link
-		c.JSON(http.StatusOK, JSONSuccess{});
+		c.JSON(http.StatusOK, JSONSuccess{message: "success"});
 	} else {
 		// user was not found
 		c.JSON(http.StatusOK, JSONSuccess{});
@@ -150,5 +150,5 @@ func register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, db.FindUser(newUser.Email))
+	c.JSON(http.StatusOK, JSONSuccess{message: "success"})
 }
