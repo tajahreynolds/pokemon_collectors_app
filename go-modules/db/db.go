@@ -35,7 +35,7 @@ func ConnectPostgres(dsn string) error {
 // FindUser fetches a user from the database by email
 func FindUser(email string) *User {
     var user User
-    if err := DB.Where("email = ?", email).First(&user).Error; err != nil {
+    if err := DB.First(&user, "email = ?", email).Error; err != nil {
         return nil
     }
     return &user

@@ -1,5 +1,12 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function gotoHomePage() {
+    router.push({ name: 'Home' });
+}
 
 const registerUsername = ref('');
 const registerEmail = ref('');
@@ -12,7 +19,7 @@ function register(e) {
         method: 'POST',
         body: JSON.stringify({ username: registerUsername.value, email: registerEmail.value }),
     })
-        .then(() => this.$router.push({ name: 'Home' }))
+        .then(gotoHomePage())
         .catch((err) => {
             console.error(err);
             alert('There was an error trying to register your account. Please try again!');
@@ -29,14 +36,14 @@ function register(e) {
                 src="../assets/logo.svg"
                 width="125"
                 height="125"
-                @click="() => $router.push({ name: 'Home' })"
+                @click="gotoHomePage()"
             />
             <h1 class="text-red-600">Pok&#233;mon Collectors</h1>
         </header>
 
         <section class="flex flex-col items-center gap-4 p-4">
             <h1 class="text-center min-[551px]:max-[976px]:max-w-[532px]">
-                Sign up for a free account to <br v-if="isTablet" />gain access to all features!
+                Sign up for a free account to gain access to all features!
             </h1>
             <form
                 class="w-3/4 min-w-[277px] rounded-lg bg-white p-4 min-[610px]:max-[786px]:min-w-[523px]"
@@ -76,11 +83,10 @@ function register(e) {
                     />
                 </div>
                 <div class="text-dark flex items-center justify-between">
-                    <span>Already have an account? <a href="/login">Login</a></span>
+                    <span>Already have an account? <RouterLink to="Login">Login</RouterLink></span>
                     <button
                         class="btn-red mr-4 text-nowrap"
                         type="submit"
-                        @click="register"
                     >
                         Register Now
                     </button>

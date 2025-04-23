@@ -1,113 +1,93 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-function login() {
-    fetch('http://localhost:8080/login', {
-        method: 'POST',
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            router.push({ name: 'Home' });
-        });
+function gotoHomePage() {
+    router.push({ name: 'Home' });
 }
 
-function register() {
-    fetch('http://localhost:8080/register', {
+const loginEmail = ref('');
+
+function login(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    fetch('http://localhost:8080/login', {
         method: 'POST',
+        body: JSON.stringify({ email: loginEmail.value }),
     })
         .then((res) => res.json())
         .then((data) => {
-            alert(data);
+            if (data.message == 'success') {
+                gotoHomePage();
+            } else {
+                throw new Error(
+                    'Fail - Account not found ? Should be treated the same as account found (next step: click confirmation link)'
+                );
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            alert('There was an error trying to login to your account. Please try again!');
         });
 }
 </script>
 
 <template>
-    <div class="page-wrapper">
-        <header>
-            <div class="logo-wrapper">
-                <img
-                    alt="Vue logo"
-                    class="logo"
-                    src="../assets/logo.svg"
-                    width="125"
-                    height="125"
-                />
-                <h1 class="text-red-600">Pok&#233;mon Collectors</h1>
-            </div>
+    <div>
+        <header class="flex flex-row items-center">
+            <img
+                alt="Vue logo"
+                class="logo"
+                src="../assets/logo.svg"
+                width="125"
+                height="125"
+                @click="gotoHomePage()"
+            />
+            <h1 class="text-red-600">Pok&#233;mon Collectors</h1>
         </header>
 
-        <section class="login-form bg-gray-200">
-            <h1>Let's get you signed in</h1>
-            <div class="flex flex-col justify-center gap-y-2">
-                <button
-                    class="btn-red"
-                    @click="login"
-                >
-                    Log In
-                </button>
-                <button
-                    class="btn-red"
-                    @click="register"
-                >
-                    Sign Up
-                </button>
-                <button class="btn-white">Sign In With Google</button>
-            </div>
+        <section class="flex flex-col items-center gap-4 p-4">
+            <h1 class="text-center min-[551px]:max-[976px]:max-w-[532px]">
+                Log in to your account to gain access to all features!
+            </h1>
+            <form
+                class="w-3/4 min-w-[277px] rounded-lg bg-white p-4 min-[610px]:max-[786px]:min-w-[523px]"
+                @submit="login"
+            >
+                <div class="pb-4">
+                    <label
+                        for="email"
+                        class="text-dark block"
+                        >Email Address:</label
+                    >
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="w-full rounded border px-3 py-2 text-gray-700"
+                        placeholder="Enter your email"
+                        v-model="loginEmail"
+                        required
+                    />
+                </div>
+                <div class="text-dark flex items-center justify-between">
+                    <span class="pr-9"
+                        >Need to create an account?
+                        <RouterLink to="Register">Register</RouterLink></span
+                    >
+                    <button
+                        class="btn-red mr-4"
+                        type="submit"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
         </section>
     </div>
 </template>
 
-<style scoped>
-header {
-    line-height: 1.5;
-}
-
-h1 {
-    font-weight: 500;
-    font-size: 2.6rem;
-    position: relative;
-    top: -10px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.logo {
-    display: block;
-    margin: 0 auto 2rem;
-}
-
-.login-form {
-    color: var(--color-background);
-    border-radius: 16px;
-    padding: 12px;
-    width: fit-content;
-    margin: 0px auto;
-}
-
-@media (min-width: 1024px) {
-    header {
-        display: flex;
-        place-items: center;
-    }
-
-    .logo {
-        margin: 0 2rem 0 0;
-    }
-
-    .logo-wrapper {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        flex-basis: min-content;
-    }
-
-    .page-wrapper {
-        justify-content: center;
-        display: flex;
-    }
-}
-</style>
+<style scoped></style>

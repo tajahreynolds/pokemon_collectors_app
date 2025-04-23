@@ -16,7 +16,7 @@ import (
 )
 
 type JSONSuccess struct {
-	message	string
+	Message string `json:"message"`
 }
 
 func main() {
@@ -111,7 +111,7 @@ func search(c *gin.Context) {
 
 func login(c *gin.Context) {
 	var requestBody struct {
-		Email    string `json:"email"`
+		Email string `json:"email"`
 	}
 
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
@@ -119,12 +119,14 @@ func login(c *gin.Context) {
 		return
 	}
 
-	if user := db.FindUser(requestBody.Email); user != nil {
-		// send the magic login link
-		c.JSON(http.StatusOK, JSONSuccess{message: "success"});
+	user := db.FindUser(requestBody.Email)
+	if user != nil {
+		// found the user, send the magic login link
+		c.JSON(http.StatusOK, JSONSuccess{Message: "success"})
 	} else {
-		// user was not found
-		c.JSON(http.StatusOK, JSONSuccess{});
+		// did not find the user, no need to send link. we also don't want to give away 
+		// info that may be used by an attacker (account found / not found)
+		c.JSON(http.StatusOK, JSONSuccess{Message: "fail"})
 	}
 }
 
@@ -150,5 +152,5 @@ func register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, JSONSuccess{message: "success"})
+	c.JSON(http.StatusOK, JSONSuccess{Message: "success"})
 }
